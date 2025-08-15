@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 const HeroSection: React.FC = () => {
+  const [positions, setPositions] = useState<{ top: string; left: string }[]>([]);
+
+  useEffect(() => {
+    const newPositions = Array.from({ length: 2 }).map(() => ({
+      top: `${Math.random() * 80}%`,
+      left: `${Math.random() * 80}%`,
+    }));
+    setPositions(newPositions);
+  }, []);
+
   return (
     <section className="bg-gradient-to-br from-blue-50 to-indigo-100 px-4 py-12">
       <div className="container mx-auto max-w-7xl">
@@ -37,43 +47,47 @@ const HeroSection: React.FC = () => {
               {/* Background decorative elements */}
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur-3xl opacity-20 scale-150"></div>
               {/* Images Container */}
-              <div className="relative flex items-center gap-8">
-                {/* First Image */}
-                <div className="relative group">
-                  <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-2xl transform group-hover:scale-110 transition-transform duration-300">
-                    <img
-                      src="/image1.jpg"
-                      alt="Educational Excellence"
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src =
-                          "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMzMzOEZGIi8+Cjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0cHgiPkVkdTwvdGV4dD4KPHN2Zz4=";
-                      }}
-                    />
-                  </div>
-                  <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
-                  </div>
-                </div>
-                {/* Second Image */}
-                <div className="relative group">
-                  <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-2xl transform group-hover:scale-110 transition-transform duration-300">
-                    <img
-                      src="/image2.jpg"
-                      alt="Learning Success"
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src =
-                          "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMTBCOTgxIi8+Cjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0cHgiPlBXPC90ZXh0Pgo8L3N2Zz4=";
-                      }}
-                    />
-                  </div>
-                  <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
-                  </div>
-                </div>
+              <div className="relative w-64 h-64">
+                {positions.length > 0 && (
+                  <>
+                    {/* First Image */}
+                    <div className="absolute group" style={{ top: positions[0].top, left: positions[0].left }}>
+                      <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-white shadow-2xl transform group-hover:scale-110 transition-transform duration-300">
+                        <img
+                          src="/images/HeroSection/imageStudent.JPG"
+                          alt="Educational Excellence"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src =
+                              "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMzMzOEZGIi8+Cjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0cHgiPkVkdTwvdGV4dD4KPHN2Zz4=";
+                          }}
+                        />
+                      </div>
+                      <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      </div>
+                    </div>
+                    {/* Second Image */}
+                    <div className="absolute group" style={{ top: positions[1].top, left: positions[1].left }}>
+                      <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-white shadow-2xl transform group-hover:scale-110 transition-transform duration-300">
+                        <img
+                          src="/images/HeroSection/imageStudent.JPG"
+                          alt="Learning Success"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src =
+                              "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMTBCOTgxIi8+Cjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0cHgiPlBXPC90ZXh0Pgo8L3N2Zz4=";
+                          }}
+                        />
+                      </div>
+                      <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
               {/* Floating elements for visual appeal */}
               <div className="absolute -top-4 -left-4 w-3 h-3 bg-yellow-400 rounded-full animate-bounce"></div>

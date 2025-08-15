@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useResponsive from "@/hooks/useResponsive";
 import { Button } from "./ui/button";
 import BioCureLogo from "@/assets/BioCure.png";
 import {
   Dialog,
   DialogContent,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import Login from "@/pages/Auth/Login";
-import Register from "@/pages/Auth/Register";
 import Forgot from "@/pages/Auth/Forgot";
+import Register from "@/pages/Auth/Register";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -21,6 +21,9 @@ import { Menu, X } from "lucide-react"; // Hamburger Icons
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [authView, setAuthView] = useState('login'); // 'login', 'register', or 'forgot'
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const isDesktop = useResponsive();
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -29,6 +32,18 @@ const Navbar = () => {
     { name: "Test Series", href: "/test-series" },
     { name: "Study Material", href: "/study-material" },
   ];
+
+  const renderAuthView = () => {
+    switch (authView) {
+      case 'register':
+        return <Register onSwitchToLogin={() => setAuthView('login')} />;
+      case 'forgot':
+        return <Forgot onSwitchToLogin={() => setAuthView('login')} />;
+      case 'login':
+      default:
+                return <Login onSwitchToRegister={() => setAuthView('register')} onSwitchToForgotPassword={() => setAuthView('forgot')} />;
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -77,17 +92,24 @@ const Navbar = () => {
 
         {/* Right Side - Login Button (Desktop + Mobile) */}
         <div className="flex items-center md:pr-24">
-          <Dialog>
-            <DialogTrigger asChild onClick={() => setAuthView('login')}>
-              <Button className="text-sm px-3 md:px-6 py-2 h-10 text-xs md:text-sm">
-                <span className="hidden sm:inline">Login / Register</span>
-                <span className="sm:hidden">Login/Register</span>
-              </Button>
-            </DialogTrigger>
+                              <Button 
+            className="text-sm px-3 md:px-6 py-2 h-10 text-xs md:text-sm"
+            onClick={() => {
+              if (isDesktop) {
+                setAuthView('login');
+                setIsDialogOpen(true);
+              } else {
+                navigate('/login');
+              }
+            }}
+          >
+            <span className="hidden sm:inline">Login / Register</span>
+            <span className="sm:hidden">Login/Register</span>
+          </Button>
+
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogContent className="sm:max-w-[425px]">
-              {authView === 'login' && <Login onSwitchToRegister={() => setAuthView('register')} onSwitchToForgotPassword={() => setAuthView('forgot')} />}
-              {authView === 'register' && <Register onSwitchToLogin={() => setAuthView('login')} />}
-              {authView === 'forgot' && <Forgot onSwitchToLogin={() => setAuthView('login')} />}
+              {renderAuthView()}
             </DialogContent>
           </Dialog>
         </div>

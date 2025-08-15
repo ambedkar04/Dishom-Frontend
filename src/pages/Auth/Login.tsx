@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Card,
@@ -12,15 +13,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, Phone, Lock } from "lucide-react";
+import { Eye, EyeOff, User, Lock } from "lucide-react";
 import { loginUser, storeAuthData } from "@/lib/api";
 
 interface LoginProps {
-  onSwitchToRegister: () => void;
-  onSwitchToForgotPassword: () => void;
+  onSwitchToRegister?: () => void;
+  onSwitchToForgotPassword?: () => void;
 }
 
 function Login({ onSwitchToRegister, onSwitchToForgotPassword }: LoginProps) {
+  const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -74,13 +76,22 @@ function Login({ onSwitchToRegister, onSwitchToForgotPassword }: LoginProps) {
     }
   };
 
-  const handleForgotPassword = () => {
-    onSwitchToForgotPassword();
+  const handleSignUp = () => {
+    if (onSwitchToRegister) {
+      onSwitchToRegister(); // Used for dialog view
+    } else {
+      navigate('/register'); // Used for mobile page view
+    }
   };
 
-  const handleSignUp = () => {
-    onSwitchToRegister();
+  const handleForgotPassword = () => {
+    if (onSwitchToForgotPassword) {
+      onSwitchToForgotPassword();
+    } else {
+      navigate('/forgot-password');
+    }
   };
+
 
   return (
       <Card className="w-full max-w-md shadow-none border-0">
@@ -104,7 +115,7 @@ function Login({ onSwitchToRegister, onSwitchToForgotPassword }: LoginProps) {
                 Mobile Number
               </Label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
                 <Input
                   id="mobile"
                   type="tel"
@@ -209,6 +220,7 @@ function Login({ onSwitchToRegister, onSwitchToForgotPassword }: LoginProps) {
             </button>
           </p>
         </div>
+
       </Card>
   );
 }

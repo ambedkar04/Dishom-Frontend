@@ -21,7 +21,7 @@ const Menubar = ({ className = "" }) => {
   const navigationItems: NavigationItem[] = [
     { name: "Study", icon: BookOpen, href: "/study" },
     { name: "Batches", icon: Users, href: "/batches" },
-    { name: "Test Series", icon: FileText, href: "/test-series" },
+    { name: "Test Series", icon: FileText, href: "/test-series-page" },
     { name: "Library", icon: Library, href: "/library" },
     { name: "Store", icon: Store, href: "/store" },
     { name: "divider", isDivider: true },
@@ -51,7 +51,7 @@ const Menubar = ({ className = "" }) => {
 
   return (
     <nav
-      className={`bg-white shadow-lg border-b border-gray-200 relative z-30 ${className}`}
+      className={`bg-white shadow-lg border-b border-gray-200 sticky top-0 z-30 ${className}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 lg:h-16">
@@ -59,8 +59,8 @@ const Menubar = ({ className = "" }) => {
           <div className="sm:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <button className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200">
-                  <MenuIcon className="h-5 w-5" />
+                <button className="p-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors duration-200 shadow-sm border border-gray-200">
+                  <MenuIcon className="h-4 w-4" />
                 </button>
               </SheetTrigger>
               <SheetContent side="left" className="p-0 w-80 max-w-[80vw]">

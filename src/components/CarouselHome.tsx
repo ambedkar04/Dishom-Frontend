@@ -2,9 +2,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import Slider from "react-slick";
+import Slider, { type CustomArrowProps } from "react-slick";
+import React from "react";
 
-const PrevArrow = (props: any) => {
+const PrevArrow: React.FC<CustomArrowProps> = (props) => {
   const { className, style, onClick } = props;
   return (
     <div
@@ -17,7 +18,7 @@ const PrevArrow = (props: any) => {
   );
 };
 
-const NextArrow = (props: any) => {
+const NextArrow: React.FC<CustomArrowProps> = (props) => {
   const { className, style, onClick } = props;
   return (
     <div

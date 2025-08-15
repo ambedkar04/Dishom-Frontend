@@ -7,9 +7,12 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <CarouselHome />
-      <HeroSection />
-      <Footer />
+      <div className="space-y-0">
+        <CarouselHome />
+        <HeroSection />
+        <Footer />
+      </div>
+      
     </div>
   );
 };

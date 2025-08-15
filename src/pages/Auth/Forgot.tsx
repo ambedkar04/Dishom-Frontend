@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Card,
@@ -14,10 +15,11 @@ import { Label } from "@/components/ui/label";
 import { Mail, ArrowLeft, CheckCircle } from "lucide-react";
 
 interface ForgotProps {
-  onSwitchToLogin: () => void;
+  onSwitchToLogin?: () => void;
 }
 
 function Forgot({ onSwitchToLogin }: ForgotProps) {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1); // 1: Enter email, 2: Success
@@ -50,7 +52,11 @@ function Forgot({ onSwitchToLogin }: ForgotProps) {
   };
 
   const handleBackToLogin = () => {
-    onSwitchToLogin();
+    if (onSwitchToLogin) {
+      onSwitchToLogin();
+    } else {
+      navigate('/login');
+    }
   };
 
   const handleInputChange = (value: string) => {
