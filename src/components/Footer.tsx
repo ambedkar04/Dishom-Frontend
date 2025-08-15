@@ -20,14 +20,12 @@ const Footer = () => {
                   />
                 </div>
               </div>
-
               <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
                 Empowering students with cutting-edge educational resources and
                 comprehensive exam preparation. Your journey to academic
                 excellence starts here.
               </p>
             </div>
-
             {/* Social Links */}
             <div className="flex space-x-2 sm:space-x-3">
               <Button
@@ -96,25 +94,39 @@ const Footer = () => {
           {/* Column 2: Quick Links */}
           <div className="space-y-3 sm:space-y-4">
             <h3 className="text-sm font-medium text-foreground">Quick Links</h3>
-            <nav className="space-y-1 sm:space-y-2">
+            <div className="space-y-2 sm:space-y-3">
               {[
-                { name: "About Us", href: "/about" },
-                { name: "Contact Us", href: "/contact" },
-                { name: "Privacy Policy", href: "/privacy-policy" },
-                { name: "Terms of Service", href: "/terms" },
-                { name: "FAQ", href: "/faq" },
+                {
+                  name: "About Us",
+                  href: "/about",
+                },
+                {
+                  name: "Contact Us",
+                  href: "/contact",
+                },
+                {
+                  name: "Privacy Policy",
+                  href: "/privacy-policy",
+                },
+                {
+                  name: "Terms of Service",
+                  href: "/terms",
+                },
+                {
+                  name: "FAQ",
+                  href: "/faq",
+                },
               ].map((link, index) => (
-                <Button
-                  key={index}
-                  variant="ghost"
-                  size="sm"
-                  className="h-auto p-0 text-sm text-muted-foreground hover:text-foreground justify-start font-normal"
-                  asChild
-                >
-                  <a href={link.href}>{link.name}</a>
-                </Button>
+                <div key={index}>
+                  <a
+                    href={link.href}
+                    className="text-xs sm:text-sm text-muted-foreground hover:text-foreground leading-relaxed transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                </div>
               ))}
-            </nav>
+            </div>
           </div>
 
           {/* Column 3: Popular Exams */}
@@ -122,27 +134,40 @@ const Footer = () => {
             <h3 className="text-sm font-medium text-foreground">
               Popular Exams
             </h3>
-            <nav className="space-y-1 sm:space-y-2">
+            <div className="space-y-2 sm:space-y-3">
               {[
-                { name: "B.Sc Nursing", href: "/exams/bsc-nursing" },
-                { name: "Pharmacy", href: "/exams/pharmacy" },
-                { name: "Paramedical", href: "/exams/paramedical" },
-                { name: "BCECE", href: "/exams/bcece" },
-                { name: "DECE", href: "/exams/dece" },
-                { name: "B.Sc", href: "/exams/bsc" },
-                { name: "M.Sc", href: "/exams/msc" },
+                {
+                  name: "B.Sc Nursing",
+                  href: "/exams/bsc-nursing",
+                },
+                {
+                  name: "Pharmacy",
+                  href: "/exams/pharmacy",
+                },
+                {
+                  name: "Paramedical",
+                  href: "/exams/paramedical",
+                },
+
+                {
+                  name: "B.Sc",
+                  href: "/exams/bsc",
+                },
+                {
+                  name: "M.Sc",
+                  href: "/exams/msc",
+                },
               ].map((exam, index) => (
-                <Button
-                  key={index}
-                  variant="ghost"
-                  size="sm"
-                  className="h-auto p-0 text-sm text-muted-foreground hover:text-foreground justify-start font-normal"
-                  asChild
-                >
-                  <a href={exam.href}>{exam.name}</a>
-                </Button>
+                <div key={index}>
+                  <a
+                    href={exam.href}
+                    className="text-xs sm:text-sm text-muted-foreground hover:text-foreground leading-relaxed transition-colors"
+                  >
+                    {exam.name}
+                  </a>
+                </div>
               ))}
-            </nav>
+            </div>
           </div>
 
           {/* Column 4: Contact Info */}
