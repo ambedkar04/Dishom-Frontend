@@ -1,6 +1,8 @@
 // API utility functions for authentication and HTTP requests
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api";
+const API_TIMEOUT = parseInt(import.meta.env.VITE_API_TIMEOUT || "10000", 10);
 
 interface ApiResponse<T = any> {
   data?: T;
@@ -36,22 +38,22 @@ interface LoginData {
 
 // Get stored tokens
 export const getTokens = (): AuthTokens | null => {
-  const accessToken = localStorage.getItem('access_token');
-  const refreshToken = localStorage.getItem('refresh_token');
-  
+  const accessToken = localStorage.getItem("access_token");
+  const refreshToken = localStorage.getItem("refresh_token");
+
   if (accessToken && refreshToken) {
     return {
       access: accessToken,
       refresh: refreshToken,
     };
   }
-  
+
   return null;
 };
 
 // Get stored user
 export const getUser = (): User | null => {
-  const userStr = localStorage.getItem('user');
+  const userStr = localStorage.getItem("user");
   if (userStr) {
     try {
       return JSON.parse(userStr);
@@ -64,16 +66,16 @@ export const getUser = (): User | null => {
 
 // Store authentication data
 export const storeAuthData = (tokens: AuthTokens, user: User): void => {
-  localStorage.setItem('access_token', tokens.access);
-  localStorage.setItem('refresh_token', tokens.refresh);
-  localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem("access_token", tokens.access);
+  localStorage.setItem("refresh_token", tokens.refresh);
+  localStorage.setItem("user", JSON.stringify(user));
 };
 
 // Clear authentication data
 export const clearAuthData = (): void => {
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('refresh_token');
-  localStorage.removeItem('user');
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("refresh_token");
+  localStorage.removeItem("user");
 };
 
 // Check if user is authenticated
@@ -87,11 +89,11 @@ export const apiRequest = async <T = any>(
   options: RequestInit = {}
 ): Promise<ApiResponse<T>> => {
   const tokens = getTokens();
-  
+
   const config: RequestInit = {
     ...options,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...options.headers,
     },
   };
@@ -115,26 +117,32 @@ export const apiRequest = async <T = any>(
     };
   } catch (error) {
     return {
-      error: 'Network error occurred',
+      error: "Network error occurred",
       status: 0,
     };
   }
 };
 
 // Register user
-export const registerUser = async (userData: RegisterData): Promise<ApiResponse<{
-  message: string;
-  user: User;
-  tokens: AuthTokens;
-}>> => {
-  return apiRequest('/auth/register/', {
-    method: 'POST',
+export const registerUser = async (
+  userData: RegisterData
+): Promise<
+  ApiResponse<{
+    message: string;
+    user: User;
+    tokens: AuthTokens;
+  }>
+> => {
+  return apiRequest("/auth/register/", {
+    method: "POST",
     body: JSON.stringify(userData),
   });
 };
 
 // Update user profile
-export const updateUserProfile = async (userData: any): Promise<ApiResponse<any>> => {
+export const updateUserProfile = async (
+  userData: any
+): Promise<ApiResponse<any>> => {
   return apiRequest("/auth/profile/update/", {
     method: "PATCH",
     body: JSON.stringify(userData),
@@ -142,13 +150,17 @@ export const updateUserProfile = async (userData: any): Promise<ApiResponse<any>
 };
 
 // Login user
-export const loginUser = async (credentials: LoginData): Promise<ApiResponse<{
-  message: string;
-  user: User;
-  tokens: AuthTokens;
-}>> => {
-  return apiRequest('/auth/login/', {
-    method: 'POST',
+export const loginUser = async (
+  credentials: LoginData
+): Promise<
+  ApiResponse<{
+    message: string;
+    user: User;
+    tokens: AuthTokens;
+  }>
+> => {
+  return apiRequest("/auth/login/", {
+    method: "POST",
     body: JSON.stringify(credentials),
   });
 };
@@ -157,7 +169,7 @@ export const loginUser = async (credentials: LoginData): Promise<ApiResponse<{
 export const logoutUser = (): void => {
   clearAuthData();
   // Optionally redirect to home page
-  window.location.href = '/';
+  window.location.href = "/";
 };
 
 export type { User, AuthTokens, RegisterData, LoginData, ApiResponse };
