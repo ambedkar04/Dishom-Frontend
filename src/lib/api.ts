@@ -90,8 +90,13 @@ export const apiRequest = async <T = any>(
 ): Promise<ApiResponse<T>> => {
   const tokens = getTokens();
 
+  // Create AbortController for timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
   const config: RequestInit = {
     ...options,
+    signal: controller.signal,
     headers: {
       "Content-Type": "application/json",
       ...options.headers,
@@ -108,6 +113,8 @@ export const apiRequest = async <T = any>(
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+    clearTimeout(timeoutId);
+
     const data = await response.json();
 
     return {
@@ -116,6 +123,15 @@ export const apiRequest = async <T = any>(
       status: response.status,
     };
   } catch (error) {
+    clearTimeout(timeoutId);
+
+    if (error instanceof Error && error.name === "AbortError") {
+      return {
+        error: `Request timeout after ${API_TIMEOUT}ms`,
+        status: 0,
+      };
+    }
+
     return {
       error: "Network error occurred",
       status: 0,
